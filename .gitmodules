@@ -1,0 +1,3 @@
+[submodule "ThirdParty"]
+	path = ThirdParty
+	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git

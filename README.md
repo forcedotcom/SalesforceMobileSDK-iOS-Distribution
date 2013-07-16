@@ -2,16 +2,16 @@
 
 This repository contains the distribution (binary) packages for the Salesforce Mobile SDK for iOS.  Distributions will be tagged by SDK release version, so grab the binaries you want associated with the version you support.
 
-- If you would like to work with the Mobile SDK and its sample apps directly, you'll want to go to the [iOS source repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS).
+- If you would like to work with the Mobile SDK and its sample apps directly, go to the [iOS source repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS).
 - If you would like to create a new native or hybrid Mobile SDK app for iOS, take a look at our [forceios npm package](https://npmjs.org/package/forceios).
 
 ## Adding the Salesforce Mobile SDK To Your Existing Native App
 
-If you would like to leverage the Salesforce Mobile SDK functionality to your existing native app, you can add our pre-built binary packages.  You can either download the binaries directly from GitHub, or sync this repository locally, check out the tag associated with the version you want, and grab the libraries that way.  The following sections describe how to add Salesforce Mobile SDK libraries to your existing native app.
+If you would like to leverage the Salesforce Mobile SDK functionality in your existing native app, you can add our pre-built binary packages.  You can either download the binaries directly from GitHub, or sync this repository locally, checking out the tag associated with the version you want.  The following sections describe how to add Salesforce Mobile SDK libraries to your existing native app.
 
 ### Libraries and Resources
 
-The following Mobile SDK libraries and resources are required for native apps.  For library archives, choose the -Debug.zip or -Release.zip file according to whether or not you want debug symbols included with the libraries.  The libraries in ThirdParty are already uncompressed, so just add those folders to your app directly.
+The following Mobile SDK libraries and resources are required for native apps.  For library archives, choose the -Debug.zip or -Release.zip file according to whether you want debug symbols included with the libraries.  The libraries in ThirdParty are already uncompressed, so just add those folders to your app directly.
 
 - openssl (ThirdParty/openssl)
 - RestKit (ThirdParty/RestKit)
@@ -38,7 +38,7 @@ In addition, the following iOS dependencies are required:
 
 ### Configuration
 
-In addition to binary dependencies, there is a minimum amount of app configuration that you need to implement, before you can use any of the Mobile SDK options that require authentication:
+In addition to adding binary dependencies, you need to implement a minimum amount of app configuration, before you can use any Mobile SDK options that require authentication:
 
 - Include `SFAccountManager.h`
 - Set your Connected App Consumer Key

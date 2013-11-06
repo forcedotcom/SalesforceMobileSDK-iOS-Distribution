@@ -1,1 +1,1 @@
-[SalesforceMobileSDK-iOS](https://github.com/forcedotcom/SalesforceMobileSDK-iOS) commit: edb526afee8c8765408ea951337a868b1c21c2ac
+[SalesforceMobileSDK-iOS](https://github.com/forcedotcom/SalesforceMobileSDK-iOS) commit: b120a77416fd2fc710ca98b16aacd71a3e6cd7ab

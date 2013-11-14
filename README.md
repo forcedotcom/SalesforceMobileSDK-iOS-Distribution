@@ -14,10 +14,11 @@ If you would like to leverage the Salesforce Mobile SDK functionality in your ex
 The following Mobile SDK libraries and resources are required for native apps.  For library archives, choose the -Debug.zip or -Release.zip file according to whether you want debug symbols included with the libraries.  The libraries in ThirdParty are already uncompressed, so just add those folders to your app directly.
 
 - openssl (ThirdParty/openssl)
-- RestKit (ThirdParty/RestKit)
 - sqlcipher (ThirdParty/sqlcipher)
 - SalesforceCommonUtils (ThirdParty/SalesforceCommonUtils)
 - SalesforceNativeSDK (SalesforceNativeSDK.zip)
+- SalesforceNetworkSDK (SalesforceNetworkSDK.zip)
+- MKNetworkKit (MKNetworkKit-iOS.zip)
 - SalesforceOAuth (SalesforceOAuth.zip)
 - SalesforceSDKCore (SalesforceSDKCore.zip)
 

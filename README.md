@@ -27,6 +27,7 @@ In addition, the following iOS dependencies are required:
 - libxml2.dylib
 - libz.dylib
 - UIKit.framework
+- ImageIO.framework
 - Foundation.framework
 - CFNetwork.framework
 - CoreData.framework

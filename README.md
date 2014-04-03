@@ -2,19 +2,12 @@
 
 This repository contains the distribution (binary) packages for the Salesforce Mobile SDK for iOS.  Distributions will be tagged by SDK release version, so grab the binaries you want associated with the version you support.
 
-## Different SDK flavors
-- If you would like to create a new native or hybrid Mobile SDK app for iOS, take a look at our [forceios npm package](https://npmjs.org/package/forceios). - Checkout ~5 minutes video here:
-[![Alt text for your video](http://img.youtube.com/vi/zNw59KEUF24/0.jpg)](http://www.youtube.com/watch?v=zNw59KEUF24)
-
-
-
-- If you have an existing app and/or want to manually add Salesforce Authentication, **you should use THIS repo**. Check out ~10 mins video here:
+ You should use this repo if you have an existing app and/or want to manually add Salesforce Authentication to an iOS app. Check out a video demo here:
 [![Alt text for your video](http://img.youtube.com/vi/X4jhhmnvjAI/0.jpg)](http://www.youtube.com/watch?v=X4jhhmnvjAI)
 
-- If you want to configure Salesforce communities login page, check out this ~3 minutes video:
-[![Alt text for your video](http://img.youtube.com/vi/USFPo2u7jpU/0.jpg)](http://www.youtube.com/watch?v=USFPo2u7jpU)
+Be sure to check out other flavors of iOS SDK like using [forceios npm package](https://npmjs.org/package/forceios) at our source repo here [SalesforceMobileSDK-iOS source repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS). 
 
-- If you would like to work with the Mobile SDK and its sample apps directly, go to the [iOS source repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS).
+
 
 
 
@@ -23,7 +16,7 @@ This repository contains the distribution (binary) packages for the Salesforce M
 If you would like to leverage the Salesforce Mobile SDK functionality in your existing native app, you can add our pre-built binary packages.  You can either download the binaries directly from GitHub, or sync this repository locally, checking out the tag associated with the version you want.  The following sections describe how to add Salesforce Mobile SDK libraries to your existing native app.
 
 ### Git clone (recursively)
-This repo has `Thirdparty` sub module. So please clone this repo recursively.
+Because this repo has `Thirdparty` sub module, be sure to clone this repo recursively.
 
 ` git clone https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution.git --recursive`
 
@@ -76,9 +69,35 @@ For example:
 Finally, make sure to set the `-ObjC` and `-all_load` flags in the `Other Linker Flags` section of your app's `Build Settings`.
 
 #### Part 2
-Last but not least,  you should also add SDK's header files to search path so your XCode project can search for it.
+Last but not least,   add the Mobile SDK header file directories to your project's search path so Xcode can search for them.
 
-1. In your XCode, click on your app name > Click on your app name Target
+1. In your Xcode, click on your app name > Click on your app name Target
 2. Click on `Build Settings` and search for `Header Search Paths`
 3. Double click on that value and add path to SDK libraries. It will look something like: `$(SRCROOT)/Your__App__Name/SalesforceOAuth` for SalesforceOAuth SDK. You need this at the bare minimum.
-4. Select `Recursive` from the menu next to the path. This will make XCode to recursively search for all the header files in sub folders.
+4. Select `Recursive` from the menu next to the path. This will make Xcode to recursively search for all the header files in sub folders.
+5.  Repeat steps 3 and 4 for all other libraries including `Thirdparty` libraries.
+
+#### Part 3 (Salesforce PIN Security)
+If you want to enable [PIN security](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/connected_apps_security_pin.htm), make sure to also add the following:
+
+1. Drag and drop `SalesforceSDKResources.bundle` file to your Xcode project.
+2. Open `main.m` file and import `SFApplication.h` and pass the SFApplication's class name as the 3rd parameter to `UIApplicationMain` method.
+
+
+It should look something like:
+
+```
+
+#import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "SFApplication.h" ## <-- Add this
+
+int main(int argc, char *argv[])
+{
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, NSStringFromClass([SFApplication class]), NSStringFromClass([AppDelegate class]));
+    }
+}
+```
+
+Note; If you are using [forceios npm package](https://npmjs.org/package/forceios) tool, it automatically setups up everything mentioned above for a sample app.

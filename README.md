@@ -38,7 +38,7 @@ In addition, the following iOS dependencies are required:
 - Security.framework
 - SystemConfiguration.framework
 
-If your connected app uses PIN protection, you'll need to add the following bundle:
+Add the following resource bundle:
 
 - SalesforceSDKResources.bundle
 

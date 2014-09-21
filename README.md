@@ -9,20 +9,25 @@ This repository contains the distribution (binary) packages for the Salesforce M
 
 If you would like to leverage the Salesforce Mobile SDK functionality in your existing native app, you can add our pre-built binary packages.  You can either download the binaries directly from GitHub, or sync this repository locally, checking out the tag associated with the version you want.  The following sections describe how to add Salesforce Mobile SDK libraries to your existing native app.
 
+If syncing this repository locally, make sure to also sync the submodules using following commands:
+
+    $ git submodule update --init
+
 ### Libraries and Resources
 
-The following Mobile SDK libraries and resources are required for native apps.  For library archives, choose the -Debug.zip or -Release.zip file according to whether you want debug symbols included with the libraries.  The libraries in ThirdParty are already uncompressed, so just add those folders to your app directly.
+The following Mobile SDK libraries and resources are required for native apps.  For library archives, choose the -Debug.zip or -Release.zip file according to whether you want debug symbols included with the libraries.  The libraries in ThirdParty folder are already uncompressed, so just add those folders to your app directly.
 
 - openssl (ThirdParty/openssl)
 - sqlcipher (ThirdParty/sqlcipher)
 - SalesforceCommonUtils (ThirdParty/SalesforceCommonUtils)
-- SalesforceNativeSDK (SalesforceNativeSDK.zip)
-- SalesforceNetworkSDK (SalesforceNetworkSDK.zip)
-- MKNetworkKit (MKNetworkKit-iOS.zip)
-- SalesforceOAuth (SalesforceOAuth.zip)
-- SalesforceSDKCore (SalesforceSDKCore.zip)
+- SalesforceNativeSDK (SalesforceNativeSDK-[Debug/Release].zip)
+- SalesforceNetworkSDK (SalesforceNetworkSDK-[Debug/Release].zip)
+- MKNetworkKit (MKNetworkKit-iOS-[Debug/Release].zip)
+- SalesforceOAuth (SalesforceOAuth-[Debug/Release].zip)
+- SalesforceSDKCore (SalesforceSDKCore-[Debug/Release].zip)
+- SalesforceSecurity (SalesforceSecurity-[Debug/Release].zip)
 
-In addition, the following iOS dependencies are required:
+In addition, the following iOS dependencies are required. Go to the **"Build Phases"** tab of the project settings and add these dependencies under **"Link Binary with Libraries"** section.
 
 - libxml2.dylib
 - libz.dylib
@@ -44,17 +49,35 @@ Add the following resource bundle:
 
 ### Configuration
 
-In addition to adding binary dependencies, you need to implement a minimum amount of app configuration, before you can use any Mobile SDK options that require authentication:
+Under the project build settings, add **"Header Search Paths"** for the SDK libraries (*SalesforceCommonUtils, SalesforceNativeSDK, SalesforceNetworkSDK, SalesforceOAuth, SalesforceSDKCore and SalesforceSecurity*) added earlier. Also make sure to set the `-ObjC` and `-all_load` flags in the "Other Linker Flags" section.
 
-- Include `SFAccountManager.h`
+
+Now you are ready to use the Salesforce Mobile SDK in your exisiting app. To launch authenthentication flow, add the following code to your class:
+
+- Import headers: `SFUserAccountManager.h`, `SFAuthenticationManager.h`
+
 - Set your Connected App Consumer Key
+
+    `[SFUserAccountManager sharedInstance].oauthClientId = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";`
+
 - Set your Connected App's Callback URL
+
+    `[SFUserAccountManager sharedInstance].oauthCompletionUrl = @"testsfdc:///mobilesdk/detect/oauth/done";`
+
 - Set the OAuth scopes that your Connected App will request
 
-For example:
+    `[SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];`
 
-        [SFAccountManager setClientId:@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"];
-        [SFAccountManager setRedirectUri:@"testsfdc:///mobilesdk/detect/oauth/done"];
-        [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
+- Launch authentication
 
-Finally, make sure to set the `-ObjC` and `-all_load` flags in the "Other Linker Flags" section of your app's Build Settings.
+    ```
+[[SFAuthenticationManager sharedManager]
+    loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)^(SFOAuthInfo *info) {
+        NSLog(@"Authentication Done");
+    }
+    failure:(SFOAuthFlowFailureCallbackBlock)^(SFOAuthInfo *info, NSError *error) {
+        NSLog(@"Authentication Failed");
+       [[SFAuthenticationManager sharedManager] logout];
+    }
+];
+    ```

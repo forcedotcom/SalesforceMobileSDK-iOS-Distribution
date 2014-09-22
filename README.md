@@ -52,7 +52,7 @@ Add the following resource bundle:
 Under the project build settings, add **"Header Search Paths"** for the SDK libraries (*SalesforceCommonUtils, SalesforceNativeSDK, SalesforceNetworkSDK, SalesforceOAuth, SalesforceSDKCore and SalesforceSecurity*) added earlier. Also make sure to set the `-ObjC` and `-all_load` flags in the "Other Linker Flags" section.
 
 
-Now you are ready to use the Salesforce Mobile SDK in your exisiting app. To launch authenthentication flow, add the following code to your class:
+Now you are ready to use the Salesforce Mobile SDK in your existing app. To launch authentication flow, add the following code to your class:
 
 - Import headers: `SFUserAccountManager.h`, `SFAuthenticationManager.h`
 

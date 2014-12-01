@@ -75,12 +75,10 @@ Now you are ready to use the Salesforce Mobile SDK in your existing app. To laun
 
 - Add your post-launch action:
 
-    ```
-__weak AppDelegate *weakSelf = self;
-[SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-    [weakSelf setupRootViewController];
-};
-    ```
+        __weak AppDelegate *weakSelf = self;
+        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            [weakSelf setupRootViewController];
+        };
 
 - Launch the Mobile SDK
 

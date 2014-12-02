@@ -20,12 +20,14 @@ The following Mobile SDK libraries and resources are required for native apps.  
 - openssl (ThirdParty/openssl)
 - sqlcipher (ThirdParty/sqlcipher)
 - SalesforceCommonUtils (ThirdParty/SalesforceCommonUtils)
-- SalesforceNativeSDK (SalesforceNativeSDK-[Debug/Release].zip)
+- SalesforceRestAPI (SalesforceRestAPI-[Debug/Release].zip)
 - SalesforceNetworkSDK (SalesforceNetworkSDK-[Debug/Release].zip)
 - MKNetworkKit (MKNetworkKit-iOS-[Debug/Release].zip)
 - SalesforceOAuth (SalesforceOAuth-[Debug/Release].zip)
 - SalesforceSDKCore (SalesforceSDKCore-[Debug/Release].zip)
 - SalesforceSecurity (SalesforceSecurity-[Debug/Release].zip)
+
+You may add the SmartSync (SmartSync-[Debug/Release].zip) library to your native app as well, if you wish to leverage the SmartSync capabilities of the SDK.
 
 In addition, the following iOS dependencies are required. Go to the **"Build Phases"** tab of the project settings and add these dependencies under **"Link Binary with Libraries"** section.
 
@@ -43,41 +45,41 @@ In addition, the following iOS dependencies are required. Go to the **"Build Pha
 - Security.framework
 - SystemConfiguration.framework
 
-Add the following resource bundle:
+Add the following resource bundles:
 
 - SalesforceSDKResources.bundle
+- Settings.bundle
 
 ### Configuration
 
-Under the project build settings, add **"Header Search Paths"** for the SDK libraries (*SalesforceCommonUtils, SalesforceNativeSDK, SalesforceNetworkSDK, SalesforceOAuth, SalesforceSDKCore and SalesforceSecurity*) added earlier. Also make sure to set the `-ObjC` and `-all_load` flags in the "Other Linker Flags" section.
+Under the project build settings, add **"Header Search Paths"** for the SDK libraries (*SalesforceCommonUtils, SalesforceRestAPI, SalesforceNetworkSDK, SalesforceOAuth, SalesforceSDKCore, SalesforceSecurity, and optionally SmartSync*) added earlier. Also make sure to set the `-ObjC` and `-all_load` flags in the "Other Linker Flags" section.
 
 
 Now you are ready to use the Salesforce Mobile SDK in your existing app. To launch authentication flow, add the following code to your class:
 
-- Import headers: `SFUserAccountManager.h`, `SFAuthenticationManager.h`
+- Import the SalesforceSDKManager header
+
+    `#import <SalesforceSDKCore/SalesforceSDKManager.h>`
 
 - Set your Connected App Consumer Key
 
-    `[SFUserAccountManager sharedInstance].oauthClientId = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";`
+    `[SalesforceSDKManager sharedManager].connectedAppId = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";`
 
 - Set your Connected App's Callback URL
 
-    `[SFUserAccountManager sharedInstance].oauthCompletionUrl = @"testsfdc:///mobilesdk/detect/oauth/done";`
+    `[SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"testsfdc:///mobilesdk/detect/oauth/done";`
 
 - Set the OAuth scopes that your Connected App will request
 
-    `[SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];`
+    `[[SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];`
 
-- Launch authentication
+- Add your post-launch action:
 
-    ```
-[[SFAuthenticationManager sharedManager]
-    loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)^(SFOAuthInfo *info) {
-        NSLog(@"Authentication Done");
-    }
-    failure:(SFOAuthFlowFailureCallbackBlock)^(SFOAuthInfo *info, NSError *error) {
-        NSLog(@"Authentication Failed");
-       [[SFAuthenticationManager sharedManager] logout];
-    }
-];
-    ```
+        __weak AppDelegate *weakSelf = self;
+        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            [weakSelf setupRootViewController];
+        };
+
+- Launch the Mobile SDK
+
+    `[[SalesforceSDKManager sharedManager] launch];`

@@ -26,6 +26,7 @@ The following Mobile SDK libraries and resources are required for native apps.  
 - SalesforceOAuth (SalesforceOAuth-[Debug/Release].zip)
 - SalesforceSDKCore (SalesforceSDKCore-[Debug/Release].zip)
 - SalesforceSecurity (SalesforceSecurity-[Debug/Release].zip)
+- SalesforceSDKCommon (SalesforceSDKCommon-[Debug/Release].zip)
 
 You may add the SmartSync (SmartSync-[Debug/Release].zip) library to your native app as well, if you wish to leverage the SmartSync capabilities of the SDK.
 
